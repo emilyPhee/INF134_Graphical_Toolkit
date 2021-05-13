@@ -96,22 +96,24 @@ var MyToolkit = (function () {
     var radiobuttonGroup = radioButtonDraw.group();
     let yPosition = -30;
     let index = 0;
+    let clickEvent = null;
 
-    {
-    }
+    let radioCircleArr = [];
+
     for (let i = 0; i < radioBtnList.length; i++) {
       // console.log(radio);
-      var radiobutton = radiobuttonGroup
+      let radiobutton = radiobuttonGroup
         .circle(20)
         .fill('white')
         .stroke('#708090');
-      var radioCircle = radiobuttonGroup
+      let radioCircle = radiobuttonGroup
         .circle(10)
         .move(5, 5)
-        .fill({ color: 'white' });
-      var radioText = radiobuttonGroup.text(radioBtnList[i][0]).move(40, 1);
+        .fill({ color: 'white' })
+        .data('number', i);
+      let radioText = radiobuttonGroup.text(radioBtnList[i][0]).move(40, 1);
       radioText.font({ family: 'Itim' });
-      var clickEvent = null;
+
       // move radio button
       radiobuttonGroup.move(0, yPosition);
       yPosition -= 30;
@@ -119,16 +121,36 @@ var MyToolkit = (function () {
         radioCircle.fill('black');
         index = i;
       }
-
-      radioCircle.click(function (event) {
-        if (event.target.attributes[3].nodeValue === 'black') {
-          radioCircle.fill({ color: 'white' });
-        } else if (event.target.attributes[3].nodeValue === 'white') {
-          radioCircle.fill({ color: 'black' });
-        }
-        if (clickEvent != null) clickEvent(event);
-      });
+      radioCircleArr.push(radioCircle);
     }
+
+    radioCircleArr.forEach((circle, index) => {
+      console.log(circle.data('number'));
+      circle.click(function (event) {
+        if (event.target.attributes[3].nodeValue === 'black') {
+          circle.fill('white');
+        } else {
+          circle.fill('black');
+        }
+
+        radioCircleArr.forEach((circle) => {
+          if (index !== circle.data('number')) {
+            circle.fill('white');
+          }
+        });
+      });
+    });
+
+    // radioCircle.click(function (event) {
+    //   console.log(event.target);
+    //   if (event.target.attributes[3].nodeValue === 'black') {
+    //     radioCircle.fill({ color: 'white' });
+    //   } else if (event.target.attributes[3].nodeValue === 'white') {
+    //     radioCircle.fill({ color: 'black' });
+    //   }
+    //   if (clickEvent != null) clickEvent(event);
+    // });
+
     return {
       onclick: function (eventHandler) {
         clickEvent = eventHandler;
@@ -139,7 +161,7 @@ var MyToolkit = (function () {
     };
   };
 
-  // var TextBox = function () {
+  // let TextBox = function () {
   //   // var inputbox = draw.group();
   //   // var rect = inputbox.rect(200, 30).fill('white').stroke('black');
   //   // var text = draw.text(function (add) {

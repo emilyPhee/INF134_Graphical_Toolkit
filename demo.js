@@ -26,6 +26,7 @@ SVG.on(document, 'DOMContentLoaded', function () {
 
   var radiobutton = new MyToolkit.RadioButton(radioButtonInputs);
   radiobutton.move(70, 170);
+
   // for (let i = 0; i < radioButtonInputs.length; i++) {
   //   var radiobutton = new MyToolkit.RadioButton();
   //   radiobutton.text(radioButtonInputs[i]p)
