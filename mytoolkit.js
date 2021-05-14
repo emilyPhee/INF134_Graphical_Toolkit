@@ -91,9 +91,11 @@ var MyToolkit = (function () {
     };
   };
 
+  // Radio Button Widget
   var RadioButton = function (radioBtnList) {
     var radioButtonDraw = SVG().addTo(draw).size('100%', '100%');
     var radiobuttonGroup = radioButtonDraw.group();
+
     let yPosition = -30;
     let index = 0;
     let clickEvent = null;
@@ -101,7 +103,6 @@ var MyToolkit = (function () {
     let radioCircleArr = [];
 
     for (let i = 0; i < radioBtnList.length; i++) {
-      // console.log(radio);
       let radiobutton = radiobuttonGroup
         .circle(20)
         .fill('white')
@@ -125,7 +126,7 @@ var MyToolkit = (function () {
     }
 
     radioCircleArr.forEach((circle, index) => {
-      console.log(circle.data('number'));
+      // console.log(circle.data('number'));
       circle.click(function (event) {
         if (event.target.attributes[3].nodeValue === 'black') {
           circle.fill('white');
@@ -141,16 +142,6 @@ var MyToolkit = (function () {
       });
     });
 
-    // radioCircle.click(function (event) {
-    //   console.log(event.target);
-    //   if (event.target.attributes[3].nodeValue === 'black') {
-    //     radioCircle.fill({ color: 'white' });
-    //   } else if (event.target.attributes[3].nodeValue === 'white') {
-    //     radioCircle.fill({ color: 'black' });
-    //   }
-    //   if (clickEvent != null) clickEvent(event);
-    // });
-
     return {
       onclick: function (eventHandler) {
         clickEvent = eventHandler;
@@ -160,19 +151,34 @@ var MyToolkit = (function () {
       },
     };
   };
+  // Textbox Widget
+  var TextBox = function () {
+    const textboxDraw = SVG().addTo(draw).size('1000px', '1000px');
+    const textDraw = SVG().size(125, 25);
 
-  // let TextBox = function () {
-  //   // var inputbox = draw.group();
-  //   // var rect = inputbox.rect(200, 30).fill('white').stroke('black');
-  //   // var text = draw.text(function (add) {
-  //   //   add.tspan(input.value);
-  //   // });
-  // };
+    const textboxGroup = textboxDraw.group();
+    textDraw.addTo(textboxGroup);
 
-  // var ScrollBar = function () {};
-  // var ProgressBar = function () {};
-  return { Button, CheckBox, RadioButton };
-  // , , , TextBox, ScrollBar, ProgressBar
+    let textbox = textboxGroup
+      .rect(126, 25)
+      .fill({ color: 'white', opacity: 0.1 })
+      .stroke('black')
+      .radius(1);
+
+    let inputText = textDraw.text('');
+    SVG.on(window, 'keyup', (event) => {
+      inputText.text(inputText.text() + event.key);
+    });
+    return {
+      move: function (x, y) {
+        textboxGroup.move(x, y);
+      },
+      text: function (textInput) {},
+    };
+  };
+  var ScrollBar = function () {};
+  var ProgressBar = function () {};
+  return { Button, CheckBox, RadioButton, TextBox, ScrollBar, ProgressBar };
 })();
 
 export { MyToolkit };

@@ -35,5 +35,7 @@ SVG.on(document, 'DOMContentLoaded', function () {
     console.log('radio button', e);
   });
 
-  // var textbox = new MyToolkit.TextBox();
+  var textbox = new MyToolkit.TextBox();
+  // textbox.text = '';
+  textbox.move(300, 200);
 });
