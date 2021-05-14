@@ -154,20 +154,34 @@ var MyToolkit = (function () {
   // Textbox Widget
   var TextBox = function () {
     const textboxDraw = SVG().addTo(draw).size('1000px', '1000px');
-    const textDraw = SVG().size(125, 25);
+    const textDraw = SVG().size(123, 25);
 
     const textboxGroup = textboxDraw.group();
     textDraw.addTo(textboxGroup);
 
     let textbox = textboxGroup
-      .rect(126, 25)
+      .rect(130, 25)
       .fill({ color: 'white', opacity: 0.1 })
       .stroke('black')
       .radius(1);
 
-    let inputText = textDraw.text('');
+    let inputText = textDraw.text('').move(4, -4).font({ family: 'Itim' });
+    let textCaret = textDraw.rect(1, 15.5).move(2, 2.5);
+    let caretRunner = textCaret.animate().width(0);
+    caretRunner.loop(1000, 1, 0);
+
+    let regex = /[A-Za-z0-9]/g;
     SVG.on(window, 'keyup', (event) => {
-      inputText.text(inputText.text() + event.key);
+      let matchArr = [];
+      if (event.key.match(regex) === null) {
+        inputText.text(inputText.text() + ' ');
+        textCaret.x(inputText.length() + 4);
+      } else {
+        if (event.key.match(regex).length === 1) {
+          inputText.text(inputText.text() + event.key);
+          textCaret.x(inputText.length() + 4);
+        }
+      }
     });
     return {
       move: function (x, y) {

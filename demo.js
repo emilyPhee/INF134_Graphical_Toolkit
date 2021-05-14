@@ -37,5 +37,5 @@ SVG.on(document, 'DOMContentLoaded', function () {
 
   var textbox = new MyToolkit.TextBox();
   // textbox.text = '';
-  textbox.move(300, 200);
+  textbox.move(300, 300);
 });
