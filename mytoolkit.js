@@ -172,14 +172,13 @@ var MyToolkit = (function () {
 
     let regex = /[A-Za-z0-9]/g;
     SVG.on(window, 'keyup', (event) => {
-      let matchArr = [];
       if (event.key.match(regex) === null) {
         inputText.text(inputText.text() + ' ');
         textCaret.x(inputText.length() + 4);
       } else {
         if (event.key.match(regex).length === 1) {
           inputText.text(inputText.text() + event.key);
-          textCaret.x(inputText.length() + 4);
+          textCaret.x(inputText.length() + 5);
         }
       }
     });
@@ -191,8 +190,96 @@ var MyToolkit = (function () {
     };
   };
   var ScrollBar = function () {};
-  var ProgressBar = function () {};
-  return { Button, CheckBox, RadioButton, TextBox, ScrollBar, ProgressBar };
+
+  // ProgressBar Widget
+  var ProgressBar = function () {
+    let progressbarDraw = SVG().addTo(draw).size('1000px', '1000px');
+    let progressChanging = SVG().size(300, 25);
+
+    const progressbarGroup = progressbarDraw.group();
+    progressChanging.addTo(progressbarGroup);
+
+    let innerProgress = progressChanging;
+
+    let progressbar = progressbarGroup
+      .rect(300, 25)
+      .fill({ color: 'white', opacity: '0.1' })
+      .stroke('#838BC2')
+      .radius(2);
+
+    return {
+      move: function (x, y) {
+        progressbarGroup.move(x, y);
+      },
+      updateProgress: function (progressPercent) {
+        const wholeLength = 300;
+
+        innerProgress
+          .rect(wholeLength * (progressPercent / 100), 25)
+          .fill('#838bc2')
+          .radius(2);
+      },
+    };
+  };
+
+  const ChangeButton = function () {
+    const changeButtonDraw = SVG().addTo(draw).size('1000px', '1000px');
+    const changeButtonGroup = changeButtonDraw.group();
+
+    const plusDraw = SVG();
+    let minusBtn = changeButtonGroup
+      .rect(40, 40)
+      .fill('white')
+      .stroke({ color: '#838bc2', width: 4 })
+      .radius(2)
+      .data('changer', 'minus');
+
+    let plusBtn = changeButtonGroup
+      .rect(40, 40)
+      .fill('#838bc2')
+      .stroke({ color: '#838bc2', width: 4 })
+      .radius(2)
+      .data('changer', 'plus')
+      .move(40, 0);
+
+    let minus = changeButtonGroup
+      .line(0, 0, 20, 0)
+      .stroke({ color: '#838bc2', width: 7, linecap: 'round' })
+      .move(9, 20);
+    let plus = plusDraw.group();
+    // plus.addTo(changeButtonGroup);
+    plus
+      .line(0, 0, 20, 0)
+      .stroke({ color: 'white', width: 7, linecap: 'round' })
+      .move(-20, 40);
+    plus
+      .line(0, 20, 0, 0)
+      .stroke({ color: 'white', width: 7, linecap: 'round' })
+      .move(-10, 30);
+
+    plus.addTo(changeButtonGroup).move(49, 10);
+
+    let changingText = '0';
+    let numText = changeButtonGroup
+      .text(changingText)
+      .move(33, -55)
+      .font({ family: 'Itim', size: 37, color: '#424651' });
+
+    return {
+      move: function (x, y) {
+        changeButtonGroup.move(x, y);
+      },
+    };
+  };
+  return {
+    Button,
+    CheckBox,
+    RadioButton,
+    TextBox,
+    ScrollBar,
+    ProgressBar,
+    ChangeButton,
+  };
 })();
 
 export { MyToolkit };
