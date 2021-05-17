@@ -179,6 +179,14 @@ var MyToolkit = (function () {
         if (event.key.match(regex).length === 1) {
           inputText.text(inputText.text() + event.key);
           textCaret.x(inputText.length() + 5);
+        } else if (event.keyCode == 8 || event.charCode) {
+          console.log('delete activated');
+          let textUpdate = inputText.text();
+
+          console.log(textUpdate);
+          let textArray = textUpdate.split('');
+          inputText.text(textArray.splice(0, textArray.length - 1).join(''));
+          textCaret.x(inputText.length() + 3);
         }
       }
     });
@@ -200,20 +208,33 @@ var MyToolkit = (function () {
     const scrollbarGroup = scrollbarDraw.group();
 
     thumbDraw.addTo(scrollbarGroup);
-
+    let clickEvent = null;
     let scrollbar = scrollbarGroup
       .rect(15, 200)
       .fill({ color: 'white', opacity: 0.1 })
       .stroke('black')
       .radius(1);
+
+    // scrollbar.click(function (event) {
+    //   console.log(event.target);
+    //   if (clickEvent != null) clickEvent(event);
+    // });
     scrollbarGroup.mousemove(function (event) {
+      thumbDraw.click(function (clickEvent) {
+        console.log(clickEvent);
+      });
       console.log(event.clientY);
+      // thumbDraw.dy(1);
+      // thumbDraw.dy(-1);
       // thumbDraw.dy(event.clientY);
     });
 
     return {
       move: function (x, y) {
         scrollbarGroup.move(x, y);
+      },
+      onclick: function (eventHandler) {
+        clickEvent = eventHandler;
       },
     };
   };
