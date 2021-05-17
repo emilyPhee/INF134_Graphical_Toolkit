@@ -189,7 +189,34 @@ var MyToolkit = (function () {
       text: function (textInput) {},
     };
   };
-  var ScrollBar = function () {};
+
+  // ScrollBar Widget
+  var ScrollBar = function () {
+    const scrollbarDraw = SVG().addTo(draw).size('900px', '900px');
+    const thumbDraw = SVG();
+
+    thumbDraw.rect(15, 30).fill('black').radius(7);
+
+    const scrollbarGroup = scrollbarDraw.group();
+
+    thumbDraw.addTo(scrollbarGroup);
+
+    let scrollbar = scrollbarGroup
+      .rect(15, 200)
+      .fill({ color: 'white', opacity: 0.1 })
+      .stroke('black')
+      .radius(1);
+    scrollbarGroup.mousemove(function (event) {
+      console.log(event.clientY);
+      // thumbDraw.dy(event.clientY);
+    });
+
+    return {
+      move: function (x, y) {
+        scrollbarGroup.move(x, y);
+      },
+    };
+  };
 
   // ProgressBar Widget
   var ProgressBar = function () {
@@ -227,6 +254,15 @@ var MyToolkit = (function () {
     const changeButtonGroup = changeButtonDraw.group();
 
     const plusDraw = SVG();
+    // stroke around number & buttons
+    changeButtonGroup
+      .rect(200, 200)
+      .stroke({ color: '#bec2cb', width: 2 })
+      .fill('white')
+      .radius(3)
+      .move(-55, -80);
+
+    // Buttons for increse/decrease number
     let minusBtn = changeButtonGroup
       .rect(40, 40)
       .fill('white')
@@ -242,12 +278,17 @@ var MyToolkit = (function () {
       .data('changer', 'plus')
       .move(40, 0);
 
+    let buttonArray = [];
+    buttonArray.push(minusBtn);
+    buttonArray.push(plusBtn);
+
     let minus = changeButtonGroup
-      .line(0, 0, 20, 0)
+      .line(0, 0, 19, 0)
       .stroke({ color: '#838bc2', width: 7, linecap: 'round' })
-      .move(9, 20);
+      .move(10, 20);
     let plus = plusDraw.group();
-    // plus.addTo(changeButtonGroup);
+    let clickEvent = null;
+
     plus
       .line(0, 0, 20, 0)
       .stroke({ color: 'white', width: 7, linecap: 'round' })
@@ -259,15 +300,33 @@ var MyToolkit = (function () {
 
     plus.addTo(changeButtonGroup).move(49, 10);
 
-    let changingText = '0';
+    let changingNumText = '0';
+    let numCounter = 0;
+
     let numText = changeButtonGroup
-      .text(changingText)
-      .move(33, -55)
+      .text(changingNumText)
+      .move(27, -55)
       .font({ family: 'Itim', size: 37, color: '#424651' });
+
+    buttonArray.forEach((btn) => {
+      btn.click(function (event) {
+        if (btn.data('changer') === 'minus') {
+          numCounter--;
+          numText.text(numCounter.toString());
+        } else if (btn.data('changer') === 'plus') {
+          numCounter++;
+          numText.text(numCounter.toString());
+        }
+        if (clickEvent != null) clickEvent(event);
+      });
+    });
 
     return {
       move: function (x, y) {
         changeButtonGroup.move(x, y);
+      },
+      onclick: function (eventHandler) {
+        clickEvent = eventHandler;
       },
     };
   };

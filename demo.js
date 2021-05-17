@@ -42,6 +42,9 @@ SVG.on(document, 'DOMContentLoaded', function () {
   // value between 0-100(%)
   progressbar.updateProgress(50);
 
+  const scrollbar = new MyToolkit.ScrollBar();
+  scrollbar.move(350, 50);
+
   const changebutton = new MyToolkit.ChangeButton();
-  changebutton.move(300, 450);
+  changebutton.move(300, 400);
 });
