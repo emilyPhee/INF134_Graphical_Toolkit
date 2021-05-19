@@ -13,6 +13,7 @@ SVG.on(document, 'DOMContentLoaded', function () {
   btn.text('BUTTON');
 
   const checkbox = new MyToolkit.CheckBox();
+  checkbox.move(70, 10);
   checkbox.onclick(function (e) {
     console.log('checkbox', e);
   });
@@ -28,11 +29,10 @@ SVG.on(document, 'DOMContentLoaded', function () {
   radiobutton.move(70, 170);
 
   radiobutton.onclick(function (e) {
-    console.log('radio button', e);
+    // console.log('radio button', e);
   });
 
   const textbox = new MyToolkit.TextBox();
-  // textbox.text = '';
   textbox.move(70, 300);
 
   let w = 400;
@@ -47,5 +47,5 @@ SVG.on(document, 'DOMContentLoaded', function () {
   scrollbar.move(350, 50);
 
   const changebutton = new MyToolkit.ChangeButton();
-  changebutton.move(300, 400);
+  changebutton.move(500, 30);
 });
