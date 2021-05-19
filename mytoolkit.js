@@ -119,7 +119,7 @@ var MyToolkit = (function () {
       radiobuttonGroup.move(0, yPosition);
       yPosition -= 30;
       if (radioBtnList[i][1] === true) {
-        radioCircle.fill('black');
+        radioCircle.fill('#b3b3e6');
         index = i;
       }
       radioCircleArr.push(radioCircle);
@@ -128,10 +128,10 @@ var MyToolkit = (function () {
     radioCircleArr.forEach((circle, index) => {
       // console.log(circle.data('number'));
       circle.click(function (event) {
-        if (event.target.attributes[3].nodeValue === 'black') {
+        if (event.target.attributes[3].nodeValue === '#b3b3e6') {
           circle.fill('white');
         } else {
-          circle.fill('black');
+          circle.fill('#b3b3e6');
         }
 
         radioCircleArr.forEach((circle) => {
@@ -203,7 +203,7 @@ var MyToolkit = (function () {
     const scrollbarDraw = SVG().addTo(draw).size('900px', '900px');
     const thumbDraw = SVG();
 
-    thumbDraw.rect(15, 30).fill('black').radius(7);
+    thumbDraw.rect(15, 30).fill('#b3b3e6').radius(7);
 
     const scrollbarGroup = scrollbarDraw.group();
 
@@ -212,7 +212,7 @@ var MyToolkit = (function () {
     let scrollbar = scrollbarGroup
       .rect(15, 200)
       .fill({ color: 'white', opacity: 0.1 })
-      .stroke('black')
+      .stroke('#b3b3e6')
       .radius(1);
 
     // scrollbar.click(function (event) {
