@@ -35,12 +35,13 @@ SVG.on(document, 'DOMContentLoaded', function () {
   // textbox.text = '';
   textbox.move(70, 300);
 
-  const progressbar = new MyToolkit.ProgressBar();
+  let w = 400;
+  const progressbar = new MyToolkit.ProgressBar(w);
   progressbar.move(300, 300);
 
   // Input progress as percentage
   // value between 0-100(%)
-  progressbar.updateProgress(50);
+  progressbar.updateProgress(70);
 
   const scrollbar = new MyToolkit.ScrollBar();
   scrollbar.move(350, 50);

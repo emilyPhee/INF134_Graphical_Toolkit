@@ -1,10 +1,21 @@
 // File name: mytoolkit.js
-// test line
 import { SVG } from './svg.min.js';
 
+/**
+ * This function will create and return an object
+ * according to each widget.
+ * It returns Button, CheckBox, RadioButton, TextBox, ScrollBar, ProgressBar, ChangeButton widget
+ */
 var MyToolkit = (function () {
   var draw = SVG().addTo('body').size('1400px', '1400px');
-  // Button Widget
+
+  /**
+   *
+   * This function will accept the property from consuming code
+   * and create an object accordingly.
+   *
+   * @returns {property} Custom lable property to set the text on the button, click event and move function
+   */
   var Button = function () {
     var btnDraw = SVG().addTo(draw).size('1000px', '1000px');
 
@@ -31,7 +42,7 @@ var MyToolkit = (function () {
       if (clickEvent != null) clickEvent(event);
     });
 
-    // custom functions?
+    // custom functions
     return {
       move: function (x, y) {
         btnGroup.move(x, y);
@@ -47,7 +58,13 @@ var MyToolkit = (function () {
     };
   };
 
-  // Checkbox Widget
+  /**
+   *
+   * This function will accept the property from consuming code
+   * and create an object with text set.
+   *
+   * @returns {property} Custom label property to set the text per checkbox widget
+   */
   var CheckBox = function () {
     var checkboxDraw = SVG().addTo(draw).size('1000px', '1000px');
     var checkboxGroup = checkboxDraw.group();
@@ -91,7 +108,14 @@ var MyToolkit = (function () {
     };
   };
 
-  // Radio Button Widget
+  /**
+   *
+   * This function will accept the array of radio widget object and the property from comsuing code,
+   * and create an objects with text set.
+   *
+   * @param {array} radioBtnList Array of radio widget object
+   * @returns {property} Custom property to set the text per radio button widget
+   */
   var RadioButton = function (radioBtnList) {
     var radioButtonDraw = SVG().addTo(draw).size('100%', '100%');
     var radiobuttonGroup = radioButtonDraw.group();
@@ -151,7 +175,14 @@ var MyToolkit = (function () {
       },
     };
   };
-  // Textbox Widget
+
+  /**
+   *
+   * This function will accept user input events
+   * and updates textbox accordingly.
+   *
+   * @returns {property} Capture the text entered by the user
+   */
   var TextBox = function () {
     const textboxDraw = SVG().addTo(draw).size('1000px', '1000px');
     const textDraw = SVG().size(123, 25);
@@ -239,8 +270,16 @@ var MyToolkit = (function () {
     };
   };
 
+  /**
+   *
+   * This function will accept the width and set total width accordingly.
+   * And create an object with updated percentage.
+   *
+   * @param {number} width the width of progress bar
+   * @returns {property} Custom proterty of set the width of progress bar in percentage value (%).
+   */
   // ProgressBar Widget
-  var ProgressBar = function () {
+  var ProgressBar = function (width) {
     let progressbarDraw = SVG().addTo(draw).size('1000px', '1000px');
     let progressChanging = SVG().size(300, 25);
 
@@ -250,7 +289,7 @@ var MyToolkit = (function () {
     let innerProgress = progressChanging;
 
     let progressbar = progressbarGroup
-      .rect(300, 25)
+      .rect(width, 25)
       .fill({ color: 'white', opacity: '0.1' })
       .stroke('#838BC2')
       .radius(2);
@@ -260,7 +299,7 @@ var MyToolkit = (function () {
         progressbarGroup.move(x, y);
       },
       updateProgress: function (progressPercent) {
-        const wholeLength = 300;
+        const wholeLength = width;
 
         innerProgress
           .rect(wholeLength * (progressPercent / 100), 25)
@@ -270,6 +309,13 @@ var MyToolkit = (function () {
     };
   };
 
+  /**
+   *
+   * This custom widget, user will be able to do
+   * click +/- button and increase/decrease the value.
+   *
+   * @returns {property} Property for move and click.
+   */
   const ChangeButton = function () {
     const changeButtonDraw = SVG().addTo(draw).size('1000px', '1000px');
     const changeButtonGroup = changeButtonDraw.group();
